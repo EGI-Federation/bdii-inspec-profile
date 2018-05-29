@@ -45,3 +45,18 @@ control 'Schema file permissions' do
     end
   end
 end
+
+control 'Permissions for Rootdn Password' do
+  impact 0.75
+  title 'Root DN password'
+  desc 'Protect the powerful Root Distinguished Name password from \n
+            disclosure except to the ldap server group and root.'
+  files_with_rootpw = command('grep -ir -l rootpw /etc/').stdout.split(/\n/)
+  files_with_rootpw.each do |f|
+    describe file(f) do
+      its('owner') { should eq 'root' }
+      its('group') { should eq 'ldap' }
+      its('mode') { should eq '0640' }
+    end
+  end
+end
