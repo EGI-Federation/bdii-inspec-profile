@@ -6,7 +6,7 @@ title 'CVE tests'
 # you add controls here
 control 'CVE-2017-17740' do
   impact 0.75
-  title ''
+  title 'CVE-2017-17740'
   desc 'if we enable overlay nops & memberof together, we can segfault'
   # We need to get the package version number in a format Gem::Version understands
   # The versions usually contain a '.el-7' or similar, so we need to split on letters.

@@ -1,0 +1,16 @@
+language: ruby
+rvm:
+- 2.4.1
+before_install: 
+install:
+- bundle
+before_script: 
+script:
+- inspec check .
+- rubocop
+after_success: 
+after_failure: 
+after_script: 
+notifications:
+  slack:
+    secure: qfoz3ElUJjzwghHMzZifNl2kHIF38W+SYekyFq2RFHdXIyobEOqdm3K26Hzw5YDS40XAZPXQ6DbwVeZZ1GeXwuubkNHf15+JNmjuOTJq0qxjxp+IfWNoyFDeJImSFI0NnfFec6/urE3HbY/R9wDI3EYKkvQxJKWoJKypCfLceianfqT5D4gTqlnk9rNmceZt5Zh8KeDBOcg6DMIwEnLatcWo8vzklQVX8CUX2EYQY3hIWOjzBcI4occb4wRMEIeqCTzsJa4bzOMfsWPejuChNKfA/9/Tc3A0f9mkFFlllOEInSyhZwPtVOu45PmjoRRG52jgL7/KLz0SF+bY2bEpbGXR9rarYCXzvyhuITHqVMdebhv2RNCmgkcC7GopjsDyaQuazFz9qnuwcfzc7FqkQSHyeNnRFbsus1UT/WpqBj7lKlxyAxQvlBmxhoiOCbCVa/IdWXrLmob83kEQnubADIuNEMXO0YK7F5mWrNyu+yXtxOLrc+icXUDuM2N7Zmo/ZQdmBCgXahyWzn0rHLMUwtvV5BF9yoVZt3IaFCCJTn8a92rlRBp9g/qzoq0ajNO877KENwxbidkUPCGkOj49eGLr+pc9WZ7BJWFFEiQf48SxdFgs8IJcon9xnpLCMfaQOl8YFc6CqXlEDd59i56isgGXCjIb8TnWRPan5+h/oIA=
