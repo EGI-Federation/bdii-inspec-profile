@@ -61,9 +61,30 @@ control 'Permissions for Rootdn Password' do
   end
 end
 
-control 'Protect the database' do
+control 'Protect Database' do
   impact 0.75
-  title 'Protect LDAP DB'
+  title 'Protect the LDAP database from Inappropriate direct access'
+  desc "The directory and files storing the LDAP database should \n
+              be owned by the ldap user and the ldap group, and have \n
+              permission 0600."
+  describe directory('/var/lib/ldap') do
+    its('owner') { should eq 'ldap' }
+    its('group') { should eq 'ldap' }
+  end
+
+  ldap_dbs = command('find /var/lib/ldap -name "*db*"').stdout.split(/\n/)
+  ldap_dbs.each do |db_file|
+    describe file(db_file) do
+      its('mode') { should cmp '0600' }
+      its('owner') { should cmp 'ldap' }
+      its('group') { should cmp 'ldap' }
+    end
+  end
+end
+
+control 'Protect LDAP Export/Import Files' do
+  impact 0.75
+  title 'Protect LDIF files'
   desc "Rather than attack the LDAP database directly it's often easier to \n
               obtain the information through backup files or import/export files \n
               typically stored in LDIF format. Look for such files on the local \n
