@@ -1,0 +1,8 @@
+name: bdii-hard
+title: BDII hardening profile
+maintainer: Bruce Becker
+copyright: The Authors
+copyright_email: bruce.becker@egi.eu
+license: Apache-2.0
+summary: An InSpec Compliance Profile for BDII  best practice and known vulnerabilities
+version: 0.1.0
