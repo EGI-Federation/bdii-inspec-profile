@@ -146,7 +146,7 @@ control '2.1 LDAPv2 Bind' do
   ldap_config_files = command('find / -name "slapd.conf" ').stdout.split(/\n/)
   ldap_config_files.each do |f|
     describe file(f) do
-      its('content') { should_not match /allow bind_v2/ }
+      its('content') { should_not match(/allow bind_v2/) }
     end
   end
 end
