@@ -56,7 +56,29 @@ control 'Permissions for Rootdn Password' do
     describe file(f) do
       its('owner') { should eq 'root' }
       its('group') { should eq 'ldap' }
-      its('mode') { should eq '0640' }
+      its('mode') { should cmp '0640' }
+    end
+  end
+end
+
+control 'Protect the database' do
+  impact 0.75
+  title 'Protect LDAP DB'
+  desc "Rather than attack the LDAP database directly it's often easier to \n
+              obtain the information through backup files or import/export files \n
+              typically stored in LDIF format. Look for such files on the local \n
+              system and review any import or export processes that are being\n
+              used. \n
+              Discussion: Any backup, export, import or other files containing the \n
+              LDAP database must be removed when no longer needed, and \n
+              protected with minimal read access, such as owned by root with \n
+              permissions 600."
+  ldif_files = command('find / -name "*.ldif"').stdout.split(/\n/)
+
+  ldif_files.each do |f|
+    describe file(f) do
+      its('mode') { should cmp '0600' }
+      its('owner') { should eq 'root' }
     end
   end
 end
