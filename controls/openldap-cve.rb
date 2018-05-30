@@ -13,16 +13,12 @@ control 'CVE-2017-17740' do
   only_if do
     package('openldap-servers').version { cmp <= '2.4.5' }
   end
-  v = Gem::Version.new(package('openldap-servers').version.split(/\.[a-z]/).first)
-  if v <= Gem::Version.new('2.4.45')
-    ldif_files = command("find /etc/openldap/ -name '*.ldif'").stdout.split(/\n/)
-    ldif_files.each do |f|
-      describe file(f) do
-        its('content') { should_not match(/nops/i) }
-        its('content') { should_not match(/moddn/i) }
-      end
+  ldif_files = command("find /etc/openldap/ -name '*.ldif'").stdout.split(/\n/)
+  ldif_files.each do |f|
+    describe file(f) do
+      its('content') { should_not match(/nops/i) }
+      its('content') { should_not match(/moddn/i) }
     end
-  else
   end
 end
 
@@ -72,6 +68,6 @@ control 'CVE-2004-0112' do
     package('openssl').installed?
   end
   describe package('openssl') do
-    its('version') {  should cmp > '0.9.7' }
+    its('version') { should cmp > '0.9.7' }
   end
 end
