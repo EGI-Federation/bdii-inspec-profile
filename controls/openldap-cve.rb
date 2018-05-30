@@ -10,6 +10,9 @@ control 'CVE-2017-17740' do
   desc 'if we enable overlay nops & memberof together, we can segfault'
   # We need to get the package version number in a format Gem::Version understands
   # The versions usually contain a '.el-7' or similar, so we need to split on letters.
+  only_if do
+    package('openldap-servers').version { cmp <= '2.4.5' }
+  end
   v = Gem::Version.new(package('openldap-servers').version.split(/\.[a-z]/).first)
   if v <= Gem::Version.new('2.4.45')
     ldif_files = command("find /etc/openldap/ -name '*.ldif'").stdout.split(/\n/)
@@ -20,7 +23,20 @@ control 'CVE-2017-17740' do
       end
     end
   else
-    puts "Openldap servers package version is #{package('openldap-servers').version}"
+  end
+end
+
+control 'CVE-2015-6908' do
+  impact 0.5
+  title 'CVE-2015-6908'
+  desc 'The ber_get_next function in libraries/liblber/io.c in OpenLDAP 2.4.42\n
+             and earlier allows remote attackers to cause a denial of service \n
+             (reachable assertion and application crash) via crafted BER data,\n
+             as demonstrated by an attack against slapd. '
+  ref ' CVE-2015-6908', url: 'https://www.cvedetails.com/cve/CVE-2015-6908/'
+
+  describe package('openldap') do
+    its('version') { should cmp > '2.4.42 ' }
   end
 end
 
@@ -53,6 +69,9 @@ control 'CVE-2004-0112' do
   ref 'CVE-2004-0112', url: 'https://www.cvedetails.com/cve/CVE-2004-0112/'
 
   only_if do
-    package('openssl').installed? && package('openssl').version < '0.9.7'
+    package('openssl').installed?
+  end
+  describe package('openssl') do
+    its('version') {  should cmp > '0.9.7' }
   end
 end
