@@ -53,6 +53,6 @@ control 'CVE-2004-0112' do
   ref 'CVE-2004-0112', url: 'https://www.cvedetails.com/cve/CVE-2004-0112/'
 
   only_if do
-    package('openssl').installed? and package('openssl').version < '0.9.7'
+    package('openssl').installed? && package('openssl').version < '0.9.7'
   end
 end
