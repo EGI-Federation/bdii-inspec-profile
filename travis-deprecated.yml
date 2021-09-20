@@ -1,0 +1,16 @@
+language: ruby
+rvm:
+  - 2.4.1
+before_install:
+install:
+  - bundle
+before_script:
+script:
+  - inspec check .
+  - rubocop
+after_success:
+after_failure:
+after_script:
+notifications:
+  slack:
+    secure:
